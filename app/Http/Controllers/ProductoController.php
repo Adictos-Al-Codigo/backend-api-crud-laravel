@@ -12,7 +12,8 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        //
+        $producto = Producto::where('estado',1)->get();
+        return response()->json([$producto,'message' => 'Lista de Productos.']);
     }
 
     /**
