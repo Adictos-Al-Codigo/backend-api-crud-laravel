@@ -18,6 +18,8 @@ return new class extends Migration
             $table->boolean('estado');
             $table->string('foto_producto');
             $table->foreignId('id_marcas')->constrained('marcas');
+            $table->foreignId('id_categorias')->constrained('categorias');
+            $table->foreignId('id_proveedors')->constrained('proveedors');
         });
     }
 
