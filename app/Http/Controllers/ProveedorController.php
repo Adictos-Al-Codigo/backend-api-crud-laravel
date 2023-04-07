@@ -36,7 +36,7 @@ class ProveedorController extends Controller
 
         $proveedor->save();
 
-        return response()->json([$proveedor,'message' => 'Proveedor Registrado']);
+        return response()->json([$proveedor,'message' => 'Proveedor Registrado',200]);
     }
 
     /**
@@ -101,6 +101,6 @@ class ProveedorController extends Controller
         $proveedor->estado = 0;
         $proveedor->save();
 
-        return response()->json(['message' => 'Proveedor Eliminado']);
+        return response()->json(['message' => 'Proveedor Eliminado',200]);
     }
 }
