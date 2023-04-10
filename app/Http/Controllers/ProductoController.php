@@ -41,6 +41,7 @@ class ProductoController extends Controller
         $producto = new Producto([
             'nombre_producto' => $validData['nombre_producto'],
             'cantidad' => $validData['cantidad'],
+            // 'password' => Hash::make($validData['password']),
             'foto_producto' => $validData['foto_producto'],
             'id_marcas' => $validData['id_marcas'],
             'id_categorias' => $validData['id_categorias'],
