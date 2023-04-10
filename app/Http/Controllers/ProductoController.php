@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class ProductoController extends Controller
 {
@@ -12,8 +14,14 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $producto = Producto::where('estado',1)->get();
-        return response()->json([$producto,'message' => 'Lista de Productos.']);
+         $producto = DB::table('productos')
+         ->join('marcas','productos.id_marcas','=','marcas.id')
+         ->join('categorias','productos.id_categorias','=','categorias.id')
+         ->join('proveedors','productos.id_proveedors','=','proveedors.id')
+         ->select('productos.id','productos.nombre_producto','productos.foto_producto','marcas.nombre as marca','categorias.nombre as categoria','proveedors.nombre as nombre_proveedor','proveedors.apellido as apellido_proveedor','proveedors.cedula as cedula_proveedor')->where('productos.estado',1)->get();
+        
+        return response()->json($producto,202);
+
     }
 
     /**
