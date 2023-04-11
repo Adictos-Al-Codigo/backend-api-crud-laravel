@@ -26,7 +26,8 @@ Route::resource('marcas', MarcaController::class);
 Route::resource('categorias', CategoriaController::class);
 Route::resource('proveedor', ProveedorController::class);
 Route::resource('producto', ProductoController::class);
-Route::post('ingresar',[UserController::class,'login']);
+Route::post('login',[UserController::class,'login']);
+Route::resource('user',UserController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
 
