@@ -13,7 +13,7 @@ class UserController extends Controller
     public function login(Request $request)
     {
         if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json(['message' => 'Credenciales inválidas'], 401);
+            return response()->json(['message' => 'Credenciales Inválidas'], 401);
         }
 
         $usuario = User::where('email', $request->email)->first();
@@ -36,23 +36,21 @@ class UserController extends Controller
                 'userName' => $usuario->name,
                 'email' => $usuario->email,
                 'rol' => $res[0]->tipo,
-                'message' => "Credenciales válidas"
-
+                'status' => "ok",
+                'message' => "Credenciales Válidas"
             ], 200
 
         );
-
-    
-
-        return response()->json(['message' => 'Credencial Valida.']);
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $user = User::where('estado',1)->get();
-        return response()->json($user,200);
+        $user = DB::table('users')
+        ->join('tipo_usuarios','users.id_tipo_usuario','=',"tipo_usuarios.id")
+        ->select('users.id','users.url_imagen','users.email','users.password','users.estado','tipo_usuarios.tipo as Tipo')->where('users.estado',1)->get();
+        return response()->json($user,202);
     }
 
     /**
