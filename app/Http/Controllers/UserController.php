@@ -49,7 +49,7 @@ class UserController extends Controller
     {
         $user = DB::table('users')
         ->join('tipo_usuarios','users.id_tipo_usuario','=',"tipo_usuarios.id")
-        ->select('users.id','users.url_imagen','users.email','users.password','users.estado','tipo_usuarios.tipo as Tipo')->where('users.estado',1)->get();
+        ->select('users.id','users.url_imagen','users.email','users.password','users.estado','tipo_usuarios.tipo as tipo')->where('users.estado',1)->get();
         return response()->json($user,202);
     }
 
@@ -85,6 +85,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
+
         $user = User::find($id);
 
 
@@ -98,7 +99,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
         //
     }
