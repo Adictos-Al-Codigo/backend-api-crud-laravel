@@ -30,6 +30,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('proveedor', ProveedorController::class);
     Route::resource('producto', ProductoController::class);
     Route::resource('user',UserController::class);
+
+    // Ruta type of users
+
+    Route::get('type_users',[UserController::class,'show_type_user']);
 });
 
 

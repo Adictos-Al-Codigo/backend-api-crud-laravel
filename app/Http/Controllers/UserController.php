@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tipo_usuario;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -66,6 +67,8 @@ class UserController extends Controller
             'id_tipo_usuario' => 'required'
         ]);
 
+        $img = $request->file('url_imagen');
+        $validData['url_imagen'] = time().'.'.$img->getClientOriginalExtension();
 
         $user = new User([
             'url_imagen' => $validData['url_imagen'],
@@ -77,6 +80,7 @@ class UserController extends Controller
         ]);
 
         $user->save();
+        $request->file('url_imagen')->storeAs("public/imagenes/usuarios/{$user->id}",$validData['url_imagen']);
         return response()->json($user,200);
     }
 
@@ -96,12 +100,22 @@ class UserController extends Controller
         return response()->json([$user,'message' => 'Usuario Encontrado.',200]);
     }
 
+    public function show_type_user(){
+        $type_user = Tipo_usuario::where('estado',1)->get();
+        return response()->json($type_user,200);
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        if (is_null($user)) {
+            return response()->json(['message' => 'Usuario No Encontrado',404]);
+        }
+
+        return response()->json($user,200);
     }
 
     /**
@@ -116,17 +130,14 @@ class UserController extends Controller
         }
 
         $validData = $request->validate([
-            'url_imagen' => 'required',
             'name' => 'required', 
             'email' => 'required',
-            'password' => 'required',
             'id_tipo_usuario' => 'required'
         ]);
 
-        $user->url_imagen = $validData['url_imagen'];
+
         $user->name = $validData['name'];
         $user->email = $validData['email'];
-        $user->password = Hash::make($validData['password']);
         $user->id_tipo_usuario = $validData['id_tipo_usuario'];
         $user->estado = 1;
         $user->save();
